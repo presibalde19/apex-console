@@ -169,7 +169,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 function formatTime(ms){let s=Math.ceil(Math.max(0,ms)/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function showTab(name){if(state.active && name!=='operate')return;state.tab=name;$$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===name?'true':'false'));['compose','operate','library','log'].forEach(n=>$('#'+n).classList.toggle('hidden',name!==n));if(name==='operate')renderOperation();if(name==='library'){updatePlanetary();updateMoon();}if(name==='log')renderLogs();window.scrollTo({top:0,behavior:'smooth'})}
 function renderPresets(){$('#presetCards').innerHTML=presets.map(p=>`<button class="opcard ${p.id===state.preset?'selected':''}" data-preset="${p.id}"><span class="opbadge">${p.tag}</span><strong>${p.name}</strong><small>${p.note}</small></button>`).join('');$$('.opcard').forEach(b=>b.onclick=()=>choosePreset(b.dataset.preset))}
-function choosePreset(id){if(!state.active)state.completion=false;state.preset=id;let p=selected();$('#frequency').value=p.freq;$('#planet').value=p.planet;$('#intention').value=p.intention;renderPresets();syncPlanetTone();updateTimingSummary();}
+function choosePreset(id){if(!state.active){state.completion=false;state.witnessSnapshot=null;}state.preset=id;let p=selected();$('#frequency').value=p.freq;$('#planet').value=p.planet;$('#intention').value=p.intention;renderPresets();syncPlanetTone();updateTimingSummary();}
 function syncPlanetTone(){
  const planet=$('#planet').value, auto=$('#autoPlanetTone').checked;
  if(auto){
